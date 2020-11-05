@@ -31,16 +31,13 @@ public class FichaDao {
             
             //Recupera e salva id
             rs = stmt.getGeneratedKeys();
-           // idficha = 0;
+            //idficha = 0;
             if (rs.next()){
                idficha = rs.getInt(1);
             }
-         
-
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
-        } 
-     
+        }     
     }
     //Fim do Método Create Ficha
    

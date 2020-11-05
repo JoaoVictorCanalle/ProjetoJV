@@ -1,265 +1,55 @@
 package View;
 
-
-import java.sql.ResultSet;
+import Controller.ClienteController;
 import java.text.DateFormat;
-import javax.swing.JOptionPane;
 import java.util.Date;
-import model.bean.Cliente;
-import model.bean.Ficha;
-import model.dao.ClienteDao;
-import model.dao.FichaDao;
-import net.proteanit.sql.DbUtils;
-
+import javax.swing.JComboBox;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 
 public class TelaCliente extends javax.swing.JInternalFrame {
 
-
+    private final ClienteController controller;
 
     public TelaCliente() {
         initComponents();
-
+        controller = new ClienteController(this);
+        Botoes(true, false, false, false, false);
+        Campos(false, false, false, false, false, false, false, false, true);
     }
 
-    //Método para limpar campos
-    private void limparCampos() {
-         txtCliId.setText(null);
-         txtCliNome.setText(null);
-         txtCliEndereco.setText(null);
-         txtCliBairro.setText(null);
-         txtCliCidade.setText(null);
-         txtCliCidade.setText(null);
-         txtCliUF.setText(null);
-         txtCliCep.setText(null);
-         txtCliTelefone.setText(null);
-    }
-    //Fim Método para limpar campos
-      
-    //Método para habilitar campos
-       private void habilitarCampos(){
-         txtCliNome.setEnabled(true);
-         txtCliEndereco.setEnabled(true);
-         txtCliBairro.setEnabled(true);
-         txtCliCidade.setEnabled(true);
-         txtCliCidade.setEnabled(true);
-         txtCliUF.setEnabled(true);
-         txtCliCep.setEnabled(true);
-         txtCliTelefone.setEnabled(true); 
-       }  
-    //Fim Método habilitar campos
-    
-    //Método desabilitar Campos
-       private void desabilitarCampos(){
-         txtCliNome.setEnabled(false);
-         txtCliEndereco.setEnabled(false);
-         txtCliBairro.setEnabled(false);
-         txtCliCidade.setEnabled(false);
-         txtCliCidade.setEnabled(false);
-         txtCliUF.setEnabled(false);
-         txtCliCep.setEnabled(false);
-         txtCliTelefone.setEnabled(false);  
-       }
-    //Fim Método desabilitar Campos
-    
-    //Menu de botões - Padronizar
-    public void botaoNovo() {
-        btnNovo.setEnabled(true);
-        btnAdicionar.setEnabled(true);
-        btnEditar.setEnabled(false);
-        btnDeletar.setEnabled(false);
-        btnCancelar.setEnabled(true);
+    private void limparCampos() {  //Método para limpar campos
+        txtCliId.setText(null);
+        txtCliNome.setText(null);
+        txtCliEndereco.setText(null);
+        txtCliBairro.setText(null);
+        //     txtCliCidade.setText(null);
+        //      txtCliCidade.setText(null);
+        //      txtCliUF.setText(null);
+        //      txtCliCep.setText(null);
+        txtCliTelefone.setText(null);
     }
 
-    public void botaoAdicionar() {
-        btnNovo.setEnabled(true);
-        btnAdicionar.setEnabled(false);
-        btnEditar.setEnabled(false);
-        btnDeletar.setEnabled(false);
-        btnCancelar.setEnabled(false);
+    private void Campos(boolean TN, boolean TE, boolean TB, boolean TC, boolean TU, boolean TCE, boolean TT, boolean JS, boolean TCP) { //Métodos Habilitar e desabilitar Campos e Botoes
+        txtCliNome.setEnabled(TN);
+        txtCliEndereco.setEnabled(TE);
+        txtCliBairro.setEnabled(TB);
+        txtCliCidade.setEnabled(TC);
+        txtCliUF.setEnabled(TU);
+        txtCliCep.setEnabled(TCE);
+        txtCliTelefone.setEnabled(TT);
+        jcbStatus.setEnabled(JS);
+        txtCliPesquisar.enable(TCP);
     }
 
-    public void botaoSetarCampos() {
-        btnNovo.setEnabled(false);
-        btnAdicionar.setEnabled(false);
-        btnEditar.setEnabled(true);
-        btnDeletar.setEnabled(true);
-        btnCancelar.setEnabled(true);
+    private void Botoes(boolean N, boolean E, boolean R, boolean S, boolean C) {
+        btnNovo.setEnabled(N);
+        btnEditar.setEnabled(E);
+        btnDeletar.setEnabled(R);
+        btnAdicionar.setEnabled(S);
+        btnCancelar.setEnabled(C);
     }
 
-    public void botaoCancelar() {
-        btnNovo.setEnabled(true);
-        btnAdicionar.setEnabled(false);
-        btnEditar.setEnabled(false);
-        btnDeletar.setEnabled(false);
-        btnCancelar.setEnabled(false);
-    }
-    //Fim do Menu de botões - Padronizar  
-    
-       
-    //Método para adicionar clientes
-    private void adicionar() {
-        int idficha; 
-        try {
-            FichaDao daoficha = new FichaDao();
-            Ficha f = new Ficha();
-             
-            f.setValortotal(0);
-            f.setPontuacao(0);
-            daoficha.create(f);
-            idficha = daoficha.retornaIdFicha();
-            if (idficha != 0) {
-                ClienteDao daocliente = new ClienteDao();
-                Cliente c = new Cliente();
-                c.setCliente_nome(txtCliNome.getText());
-                c.setCliente_endereco(txtCliEndereco.getText());
-                c.setCliente_bairro(txtCliBairro.getText());
-                c.setCliente_cidade(txtCliCidade.getText());
-                c.setCliente_uf(txtCliUF.getText());
-                c.setCliente_cep(txtCliCep.getText());
-                c.setCliente_telefone(txtCliTelefone.getText());
-                c.setCliente_ficha_id(idficha);
-                daocliente.create(c);
-                limparCampos();
-                botaoAdicionar();
-                desabilitarCampos();
-                
-                
-             //   p.setDescricao(txtDescricao.getText());
-             //   p.setValor(Double.parseDouble(txtValor.getText().replace(",", ".")));
-             //   p.setCategoria_id(categoria.getId());
-                
-            } else {
-                  JOptionPane.showMessageDialog(null, "Erro na geração da ficha");
-            }
-
- //           if ((txtCliNome.getText().isEmpty()) || (txtCliEndereco.getText().isEmpty())) {
- //               JOptionPane.showMessageDialog(this, "Preencha todos os campos obrigatórios");
- //           } else {
-
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
-
-    }
-
-    // Fim do adicionar
-    
-
-    
-    //Método para pesquisar clientes pelo nome com filtro
-    private void pesquisar_cliente() {
-       ClienteDao cliente = new ClienteDao();
-       ResultSet rs = null;
-       
-      rs = cliente.consultar_cliente(txtCliPesquisar.getText() + "%");
-      // cliente.consultar_cliente(txtCliPesquisar.getText() + "%");
-      // rs = cliente.consultar_cliente();
-      //   rs = cliente.getResultado();
-      
-       tblClientes.setEnabled(true);
-       tblClientes.setModel(DbUtils.resultSetToTableModel(rs));
-    }
-    
-    
-    
-    
-    
-    
-       // String sql = "select cliente_id as Id,cliente_nome as Nome,cliente_endereco as Endereco,cliente_bairro as Bairro,cliente_cidade as Cidade,cliente_uf as UF,"
-       //         + "cliente_cep as Cep,cliente_telefone as Telefone from cliente where cliente_nome like ?";
-        //select idcli as Id, nomecli as Nome, fonecli as Fone from tbclientes where nomecli like ?"
-       // try {
- //           pst = conexao.prepareStatement(sql);
- //           pst.setString(1, txtCliPesquisar.getText() + "%");
- //           rs = pst.executeQuery();
- //           tblClientes.setModel(DbUtils.resultSetToTableModel(rs));
-
-    //    } catch (Exception e) {
-    //        JOptionPane.showMessageDialog(null, e);
-     //   }
-
-    
-    //Fim do método para pesquisar
-    
-    //Método setar campos para os txt
-    public void setar_campos(){
-       int setar = tblClientes.getSelectedRow();
-       txtCliId.setText(tblClientes.getModel().getValueAt(setar,0).toString());
-       txtCliNome.setText(tblClientes.getModel().getValueAt(setar,1).toString());
-       txtCliEndereco.setText(tblClientes.getModel().getValueAt(setar,2).toString());
-       txtCliBairro.setText(tblClientes.getModel().getValueAt(setar,3).toString());
-       txtCliCidade.setText(tblClientes.getModel().getValueAt(setar,4).toString());
-       txtCliUF.setText(tblClientes.getModel().getValueAt(setar,5).toString());
-       txtCliCep.setText(tblClientes.getModel().getValueAt(setar,6).toString());
-       txtCliTelefone.setText(tblClientes.getModel().getValueAt(setar,7).toString());
-       
-       btnNovo.setEnabled(false);
-       btnAdicionar.setEnabled(false);
-       btnEditar.setEnabled(true);
-       btnDeletar.setEnabled(true);
-       btnCancelar.setEnabled(true);
-       habilitarCampos();
-    }
-    
-    //Fim Método setar campos
-    
-    
-    //Método para validar campos em branco
-    public boolean validarCampos(){ 
-        if(txtCliNome.getText().equals("")){
-           JOptionPane.showMessageDialog(this, "Preencha o campo Nome!");
-           txtCliNome.requestFocus();
-           return false;
-        }
-        if(txtCliEndereco.getText().equals("")){
-           JOptionPane.showMessageDialog(this, "Preencha o campo Endereço!");
-           txtCliEndereco.requestFocus();
-           return false;
-        }
-        return true;
-      }
-    //Fim Método para validar campos em branco
-    
-    //Método para Alterar dados do Cliente
-    private void alterar(){
- /*       String sql = "update cliente set cliente_nome=?,cliente_endereco=?,cliente_bairro=?,cliente_cidade=?,cliente_uf=?,cliente_cep=?,cliente_telefone=? where cliente_id=?";
-        try {
-        pst = conexao.prepareStatement(sql);
-        pst.setString(1, txtCliNome.getText());
-        pst.setString(2, txtCliEndereco.getText());
-        pst.setString(3, txtCliBairro.getText());
-        pst.setString(4, txtCliCidade.getText());
-        pst.setString(5, txtCliUF.getText());
-        pst.setString(6, txtCliCep.getText());
-        pst.setString(7, txtCliTelefone.getText());  
-        pst.setString(8, txtCliId.getText()); 
-        
-            if (txtCliNome.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios");
-                
-            } else {
-                pst.executeUpdate();
-                JOptionPane.showMessageDialog(null, "Dados do cliente alterados com sucesso");
-                
-                limparCampos();
-                
-                btnNovo.setEnabled(true);
-                btnAdicionar.setEnabled(false);
-                btnEditar.setEnabled(false);
-                btnDeletar.setEnabled(false);
-       
-            }
-        
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
-        
-   */
-    }
-    
-  
- 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -293,7 +83,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         txtCliId = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jcbStatus = new javax.swing.JComboBox<>();
 
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         setClosable(true);
@@ -302,7 +92,6 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         setTitle("Cadastro de Clientes");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
-                formInternalFrameActivated(evt);
             }
             public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -340,11 +129,6 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
         txtCliPesquisar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        txtCliPesquisar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCliPesquisarActionPerformed(evt);
-            }
-        });
         txtCliPesquisar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtCliPesquisarKeyPressed(evt);
@@ -439,23 +223,16 @@ public class TelaCliente extends javax.swing.JInternalFrame {
 
         jLabel5.setText("Cidade:");
 
+        txtCliCidade.setText("Monte Alto");
         txtCliCidade.setEnabled(false);
 
         jLabel6.setText("UF");
 
+        txtCliUF.setText("SP");
         txtCliUF.setEnabled(false);
-        txtCliUF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCliUFActionPerformed(evt);
-            }
-        });
 
+        txtCliCep.setText("15910-000");
         txtCliCep.setEnabled(false);
-        txtCliCep.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCliCepActionPerformed(evt);
-            }
-        });
 
         jLabel7.setText("Cep:");
 
@@ -469,7 +246,8 @@ public class TelaCliente extends javax.swing.JInternalFrame {
 
         jLabel10.setText("Status");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ATIVO", "INATIVO" }));
+        jcbStatus.setEnabled(false);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -485,11 +263,6 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                                 .addGroup(jPanel2Layout.createSequentialGroup()
                                     .addComponent(jLabel3)
                                     .addGap(694, 694, 694))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(txtCliEndereco, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 545, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING))
-                                    .addGap(198, 198, 198))
                                 .addGroup(jPanel2Layout.createSequentialGroup()
                                     .addComponent(txtCliCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -504,7 +277,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                                         .addGroup(jPanel2Layout.createSequentialGroup()
                                             .addComponent(txtCliCep, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jcbStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addGap(166, 166, 166)))
                                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel9)
@@ -513,13 +286,16 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                                     .addComponent(jLabel6)
                                     .addGap(573, 573, 573))
                                 .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addComponent(txtCliNome, javax.swing.GroupLayout.PREFERRED_SIZE, 545, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtCliNome)
+                                    .addGap(21, 21, 21)
                                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(jLabel8)
                                         .addComponent(jLabel4)
                                         .addComponent(txtCliBairro, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
-                                        .addComponent(txtCliTelefone))))))
+                                        .addComponent(txtCliTelefone)))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtCliEndereco, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 576, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(156, 156, 156)
                         .addComponent(btnNovo)
@@ -531,7 +307,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                         .addComponent(btnDeletar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnCancelar)))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 2, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -567,7 +343,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                     .addComponent(txtCliUF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtCliCep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtCliId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jcbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdicionar)
@@ -575,7 +351,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                     .addComponent(btnDeletar)
                     .addComponent(btnNovo)
                     .addComponent(btnCancelar))
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -600,79 +376,140 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         setBounds(0, 0, 763, 480);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void formInternalFrameActivated(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameActivated
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_formInternalFrameActivated
-
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
-        // TODO add your handling code here:
         Date data = new Date();
         DateFormat formatador = DateFormat.getDateInstance(DateFormat.SHORT);
         lblData.setText(formatador.format(data));
     }//GEN-LAST:event_formInternalFrameOpened
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
-        // TODO add your handling code here:
-        adicionar();
+        controller.adicionar();
+        limparCampos();
+        Botoes(true, false, false, false, false);
+        Campos(false, false, false, false, false, false, false, false, true);
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
-    private void txtCliUFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCliUFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCliUFActionPerformed
-
     private void txtCliPesquisarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCliPesquisarKeyPressed
-        // TODO add your handling code here:
-        pesquisar_cliente();
+        controller.pesquisar_cliente();
     }//GEN-LAST:event_txtCliPesquisarKeyPressed
 
     private void tblClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClientesMouseClicked
-        // TODO add your handling code here:
-        setar_campos();
+        Botoes(false, true, true, false, true);
+        Campos(true, true, true, true, true, true, true, true, false);
+        controller.setar_campos();
     }//GEN-LAST:event_tblClientesMouseClicked
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        // TODO add your handling code here:
-        alterar();
+        controller.editar();
+        Botoes(true, false, false, false, false);
+        Campos(false, false, false, false, false, false, false, false, true);
+        limparCampos();
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
-        // TODO add your handling code here:
         limparCampos();
-        btnNovo.setEnabled(false);
-        btnEditar.setEnabled(false);
-        btnAdicionar.setEnabled(true);
-        btnDeletar.setEnabled(false);
-        btnCancelar.setEnabled(true);
-        txtCliPesquisar.enable(false);
-        habilitarCampos();
+        Botoes(false, false, false, true, true);
+        Campos(true, true, true, true, true, true, true, true, false);
         btnNovo.requestFocus();
-        
     }//GEN-LAST:event_btnNovoActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
         limparCampos();
-        btnNovo.setEnabled(true);
-        btnEditar.setEnabled(false);
-        btnAdicionar.setEnabled(false);
-        btnDeletar.setEnabled(false);
-        btnCancelar.setEnabled(false);
-        txtCliPesquisar.enable(true);
-        desabilitarCampos();
+        Botoes(true, false, false, false, false);
+        Campos(false, false, false, false, false, false, false, false, true);
     }//GEN-LAST:event_btnCancelarActionPerformed
-
-    private void txtCliPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCliPesquisarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCliPesquisarActionPerformed
 
     private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnDeletarActionPerformed
 
-    private void txtCliCepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCliCepActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCliCepActionPerformed
+    public JTextField getTxtCliBairro() {
+        return txtCliBairro;
+    }
+
+    public void setTxtCliBairro(JTextField txtCliBairro) {
+        this.txtCliBairro = txtCliBairro;
+    }
+
+    public JTextField getTxtCliCep() {
+        return txtCliCep;
+    }
+
+    public void setTxtCliCep(JTextField txtCliCep) {
+        this.txtCliCep = txtCliCep;
+    }
+
+    public JTextField getTxtCliCidade() {
+        return txtCliCidade;
+    }
+
+    public void setTxtCliCidade(JTextField txtCliCidade) {
+        this.txtCliCidade = txtCliCidade;
+    }
+
+    public JTextField getTxtCliEndereco() {
+        return txtCliEndereco;
+    }
+
+    public void setTxtCliEndereco(JTextField txtCliEndereco) {
+        this.txtCliEndereco = txtCliEndereco;
+    }
+
+    public JTextField getTxtCliId() {
+        return txtCliId;
+    }
+
+    public void setTxtCliId(JTextField txtCliId) {
+        this.txtCliId = txtCliId;
+    }
+
+    public JTextField getTxtCliNome() {
+        return txtCliNome;
+    }
+
+    public void setTxtCliNome(JTextField txtCliNome) {
+        this.txtCliNome = txtCliNome;
+    }
+
+    public JTextField getTxtCliPesquisar() {
+        return txtCliPesquisar;
+    }
+
+    public void setTxtCliPesquisar(JTextField txtCliPesquisar) {
+        this.txtCliPesquisar = txtCliPesquisar;
+    }
+
+    public JTextField getTxtCliTelefone() {
+        return txtCliTelefone;
+    }
+
+    public void setTxtCliTelefone(JTextField txtCliTelefone) {
+        this.txtCliTelefone = txtCliTelefone;
+    }
+
+    public JTextField getTxtCliUF() {
+        return txtCliUF;
+    }
+
+    public void setTxtCliUF(JTextField txtCliUF) {
+        this.txtCliUF = txtCliUF;
+    }
+
+    public JTable getTblClientes() {
+        return tblClientes;
+    }
+
+    public void setTblClientes(JTable tblClientes) {
+        this.tblClientes = tblClientes;
+    }
+
+    public JComboBox<String> getJcbStatus() {
+        return jcbStatus;
+    }
+
+    public void setJcbStatus(JComboBox<String> jcbStatus) {
+        this.jcbStatus = jcbStatus;
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -681,7 +518,6 @@ public class TelaCliente extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnDeletar;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnNovo;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -695,6 +531,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JComboBox<String> jcbStatus;
     private javax.swing.JLabel lblData;
     private javax.swing.JTable tblClientes;
     private javax.swing.JTextField txtCliBairro;

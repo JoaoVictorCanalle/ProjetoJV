@@ -15,6 +15,9 @@ public class CatProduto {
     private String tipo;
     private int Status;
 
+    public CatProduto() {
+    }
+
     public int getId() {
         return id;
     }
@@ -52,7 +55,7 @@ public class CatProduto {
     }
     
     
-    
+ 
     
     public Vector<CatProduto> mostrarCategoria(){
          //Alimentando o combobox 
@@ -124,6 +127,6 @@ public class CatProduto {
       return dados;
        
     }
-    //fim do alimentando Produto
+    //fim do alimentando Produto 
     
 }

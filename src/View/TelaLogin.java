@@ -3,23 +3,29 @@
 package View;
 
 //importa para usar o java na classe
+import Controller.LoginController;
 import java.sql.*;
 //importa para usar o moduloconexao;
 import connection.ConnectionFactory;
 import java.awt.Color;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 import model.bean.Login;
 import model.dao.LoginDao;
 
 public class TelaLogin extends javax.swing.JFrame {
 
+    private final LoginController controller;
+
         
     /** Creates new form TelaLogin */
     public TelaLogin() {
         initComponents();
+        controller = new LoginController(this);
+        
         //chamar o método conector criado no método conexao ele que vai permitir a conexão com o banco de dados
         Connection con = ConnectionFactory.getConnection();
-
         if (con != null){
             lblstatus.setText("Conectado");
         } else {
@@ -105,12 +111,7 @@ public class TelaLogin extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // Chamando o método logar
-        Login l = new Login();
-        LoginDao dao = new LoginDao();
-        l.setLogin(txtUsuario.getText());
-        l.setSenha(txtSenha.getText());
-        dao.logar(l);
-        
+        this.controller.logar();       
     }//GEN-LAST:event_btnLoginActionPerformed
 
     /**
@@ -158,4 +159,22 @@ public class TelaLogin extends javax.swing.JFrame {
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 
+    public JPasswordField getTxtSenha() {
+        return txtSenha;
+    }
+
+    public void setTxtSenha(JPasswordField txtSenha) {
+        this.txtSenha = txtSenha;
+    }
+
+    public JTextField getTxtUsuario() {
+        return txtUsuario;
+    }
+
+    public void setTxtUsuario(JTextField txtUsuario) {
+        this.txtUsuario = txtUsuario;
+    }
+
+    
+    
 }

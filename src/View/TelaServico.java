@@ -1,86 +1,60 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package View;
 
+import Controller.ServicoController;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JOptionPane;
+import javax.swing.JComboBox;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+
 import model.bean.CatProduto;
 import model.bean.Produto;
-import model.dao.ProdutoDao;
-import model.dao.ServicoDao;
-import net.proteanit.sql.DbUtils;
 
-/**
- *
- * @author JaYVi
- */
+import model.dao.ServicoDao;
+
+
+
 public class TelaServico extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form TelaServico
-     */
+    private final ServicoController controller;
+    
     public TelaServico() {
         initComponents();
+        controller = new ServicoController(this);
+        Botoes(true,false,false,false,false,true);
+        Campos(false,false,false,false,false,true);
         
         CatProduto catp = new CatProduto();
         DefaultComboBoxModel modeloEstado = new DefaultComboBoxModel(catp.mostrarCategoriaServico()); 
         jcbCategoria.setModel(modeloEstado);
     }
 
-    //Método para limpar campos
-    private void limparCampos() {
-         txtDescricao.setText(null);
-         txtValor.setText(null);
-         jcbFid.setSelectedIndex(0);
-      //   jcbCategoria.setSelectedIndex(0);
-         jcbStatus.setSelectedIndex(0);
+      private void limparCampos() {  //Método para limpar campos
+        txtDescricao.setText(null);
+        txtValor.setText(null);
+        jcbFid.setSelectedIndex(0);
+        jcbCategoria.setSelectedIndex(0);
+        jcbStatus.setSelectedIndex(0);
     }
-    //Fim Método para limpar campos
-      
-    //Método para habilitar campos
-       private void habilitarCampos(){
-         txtDescricao.setEnabled(true);
-         txtValor.setEnabled(true);
-         jcbFid.setEnabled(true);
-        // jcbCategoria.setEnabled(true);
-         jcbStatus.setEnabled(true);
-       }  
-    //Fim Método habilitar campos
+ 
+    private void Campos(boolean TD, boolean TV, boolean JF, boolean JC, boolean JS,boolean TBL){
+        txtDescricao.setEnabled(TD);
+        txtValor.setEnabled(TV);
+        jcbFid.setEnabled(JF);
+        jcbCategoria.setEnabled(JC);
+        jcbStatus.setEnabled(JS);
+        tblServicos.setEnabled(TBL);
+    }
     
-    //Método desabilitar Campos
-       private void desabilitarCampos(){
-         txtDescricao.setEnabled(false);
-         txtValor.setEnabled(false);
-         jcbFid.setEnabled(false);
-        // jcbCategoria.setEnabled(false);
-         jcbStatus.setEnabled(false);  
-       }
-    //Fim Método desabilitar Campos
-       
-    //Método para Validar Campos   
-    public boolean validarCampos(){
-        if(txtDescricao.getText().equals("")){
-            JOptionPane.showMessageDialog(this, "Digite a descrição do produto!");
-            txtDescricao.requestFocus();
-            return false;
-        } if(txtValor.getText().equals("")){
-            JOptionPane.showMessageDialog(this, "Digite o valor do produto!");
-            txtValor.requestFocus();
-            return false;
-        } if(jcbStatus.getSelectedIndex() == 0){
-            JOptionPane.showMessageDialog(this, "Selecione o status do produto!");
-            jcbStatus.requestFocus();
-            return false; 
-        }  
-            return true;
-        
-    }     
-    //Fim Método para Validar Campos
-    
-    
+    public void Botoes(boolean N, boolean E, boolean R, boolean S, boolean C, boolean P){
+       btnNovo.setEnabled(N);
+       btnEditar.setEnabled(E); 
+       btnDeletar.setEnabled(R);
+       btnAdicionar.setEnabled(S);
+       btnCancelar.setEnabled(C);
+       btnPesquisar.setEnabled(P);
+    }
+     
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -110,6 +84,7 @@ public class TelaServico extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         jcbCategoria = new javax.swing.JComboBox<>();
         btnCategoriaProdutos = new javax.swing.JButton();
+        txtId = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         btnPesquisar = new javax.swing.JButton();
 
@@ -137,7 +112,7 @@ public class TelaServico extends javax.swing.JInternalFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel2.setText("Descrição:");
+        jLabel2.setText("Nome do Serviço:");
 
         jLabel4.setText("Valor:");
 
@@ -155,7 +130,7 @@ public class TelaServico extends javax.swing.JInternalFrame {
         jcbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ATIVO", "INATIVO" }));
         jcbStatus.setEnabled(false);
 
-        btnNovo.setIcon(new javax.swing.ImageIcon("C:\\Users\\JaYVi\\Downloads\\Icones JV\\New-48.png")); // NOI18N
+        btnNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/New-48.png"))); // NOI18N
         btnNovo.setToolTipText("Novo");
         btnNovo.setPreferredSize(new java.awt.Dimension(50, 50));
         btnNovo.addActionListener(new java.awt.event.ActionListener() {
@@ -164,7 +139,7 @@ public class TelaServico extends javax.swing.JInternalFrame {
             }
         });
 
-        btnAdicionar.setIcon(new javax.swing.ImageIcon("C:\\Users\\JaYVi\\Downloads\\Icones JV\\Save-48.png")); // NOI18N
+        btnAdicionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Save-48.png"))); // NOI18N
         btnAdicionar.setToolTipText("Salvar");
         btnAdicionar.setMaximumSize(new java.awt.Dimension(80, 57));
         btnAdicionar.setPreferredSize(new java.awt.Dimension(50, 50));
@@ -174,11 +149,11 @@ public class TelaServico extends javax.swing.JInternalFrame {
             }
         });
 
-        btnEditar.setIcon(new javax.swing.ImageIcon("C:\\Users\\JaYVi\\Downloads\\Icones JV\\Edit-48.png")); // NOI18N
+        btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Edit-48.png"))); // NOI18N
         btnEditar.setToolTipText("Editar");
         btnEditar.setPreferredSize(new java.awt.Dimension(50, 50));
 
-        btnDeletar.setIcon(new javax.swing.ImageIcon("C:\\Users\\JaYVi\\Downloads\\Icones JV\\Delete-48.png")); // NOI18N
+        btnDeletar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Delete-48.png"))); // NOI18N
         btnDeletar.setToolTipText("Deletar");
         btnDeletar.setPreferredSize(new java.awt.Dimension(50, 50));
         btnDeletar.addActionListener(new java.awt.event.ActionListener() {
@@ -187,7 +162,7 @@ public class TelaServico extends javax.swing.JInternalFrame {
             }
         });
 
-        btnCancelar.setIcon(new javax.swing.ImageIcon("C:\\Users\\JaYVi\\Downloads\\Icones JV\\Cancel-48.png")); // NOI18N
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Cancel-48.png"))); // NOI18N
         btnCancelar.setToolTipText("Cancel");
         btnCancelar.setMaximumSize(new java.awt.Dimension(80, 57));
         btnCancelar.setPreferredSize(new java.awt.Dimension(50, 50));
@@ -202,7 +177,7 @@ public class TelaServico extends javax.swing.JInternalFrame {
         jcbCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jcbCategoria.setEnabled(false);
 
-        btnCategoriaProdutos.setIcon(new javax.swing.ImageIcon("C:\\Users\\JaYVi\\Downloads\\Icones JV\\Add-32.png")); // NOI18N
+        btnCategoriaProdutos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Add-32.png"))); // NOI18N
         btnCategoriaProdutos.setToolTipText("Cadastrar Categoria");
         btnCategoriaProdutos.setPreferredSize(new java.awt.Dimension(35, 35));
         btnCategoriaProdutos.addActionListener(new java.awt.event.ActionListener() {
@@ -217,65 +192,70 @@ public class TelaServico extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel2)
-                    .addComponent(txtDescricao)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel5)
                             .addComponent(jLabel4)
-                            .addComponent(txtValor, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jcbFid, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jcbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnNovo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jcbFid, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtDescricao, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jcbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnCategoriaProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(txtValor, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jcbStatus, javax.swing.GroupLayout.Alignment.LEADING, 0, 124, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(52, 52, 52))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(60, 60, 60)
+                        .addComponent(btnNovo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(8, 8, 8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(4, 4, 4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jcbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCategoriaProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
-                .addContainerGap(61, Short.MAX_VALUE))
+                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(11, 11, 11)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnCategoriaProdutos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jcbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel5)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jcbFid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel7))
-                .addGap(5, 5, 5)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jcbFid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jcbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCategoriaProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jcbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
-                .addGap(29, 29, 29)
+                .addGap(32, 32, 32)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -328,22 +308,14 @@ public class TelaServico extends javax.swing.JInternalFrame {
                 .addGap(31, 31, 31))
         );
 
-        setBounds(0, 0, 670, 382);
+        setBounds(0, 0, 750, 366);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
-        // TODO add your handling code here:
         limparCampos();
-        habilitarCampos();
-        btnPesquisar.setEnabled(false);
-        tblServicos.setEnabled(false);
-        btnNovo.setEnabled(true);
-        btnAdicionar.setEnabled(true);
-        btnEditar.setEnabled(false);
-        btnDeletar.setEnabled(false);
-        btnCancelar.setEnabled(true);
+        Campos(true,true,true,true,true,false);
+        Botoes(false,false,false,true,true,false);
         txtDescricao.requestFocus();
-
     }//GEN-LAST:event_btnNovoActionPerformed
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
@@ -362,17 +334,11 @@ public class TelaServico extends javax.swing.JInternalFrame {
             p.setStatus(2);
         }
         dao.createServico(p);   
+        
         limparCampos();
-        desabilitarCampos();
-        btnPesquisar.setEnabled(true);
-        tblServicos.setEnabled(true);
-        btnNovo.setEnabled(true);
-        btnAdicionar.setEnabled(false);
-        btnEditar.setEnabled(false);
-        btnDeletar.setEnabled(false);
-        btnCancelar.setEnabled(false);
-
-        btnPesquisar.doClick();
+        Campos(false,false,false,false,false,true);   
+        Botoes(true,false,false,false,false,true);
+        controller.atualizarGrid();
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
     private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
@@ -380,27 +346,13 @@ public class TelaServico extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnDeletarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
         limparCampos();
-        desabilitarCampos();
-        btnPesquisar.setEnabled(true);
-        tblServicos.setEnabled(true);
-        btnNovo.setEnabled(true);
-        btnAdicionar.setEnabled(false);
-        btnEditar.setEnabled(false);
-        btnDeletar.setEnabled(false);
-        btnCancelar.setEnabled(false);
+        Campos(false,false,false,false,false,true);   
+        Botoes(true,false,false,false,false,true);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-        // TODO add your handling code here:
-        ServicoDao dao = new ServicoDao();
-        tblServicos.setModel(DbUtils.resultSetToTableModel(dao.consultar_servico()));
-        //omitir campo de coluna
-        tblServicos.getColumn(tblServicos.getColumnName(0)).setMinWidth(0);
-        tblServicos.getColumn(tblServicos.getColumnName(0)).setMaxWidth(0);
-        //tblProdutos.getColumn(tblProdutos.getColumnName(0)).setPreferredWidth(0);
-        tblServicos.getColumn(tblServicos.getColumnName(1)).setPreferredWidth(150);
+       controller.atualizarGrid();
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     private void btnCategoriaProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCategoriaProdutosActionPerformed
@@ -410,6 +362,63 @@ public class TelaServico extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_btnCategoriaProdutosActionPerformed
 
+    public JComboBox<String> getJcbCategoria() {
+        return jcbCategoria;
+    }
+
+    public void setJcbCategoria(JComboBox<String> jcbCategoria) {
+        this.jcbCategoria = jcbCategoria;
+    }
+
+    public JComboBox<String> getJcbFid() {
+        return jcbFid;
+    }
+
+    public void setJcbFid(JComboBox<String> jcbFid) {
+        this.jcbFid = jcbFid;
+    }
+
+    public JComboBox<String> getJcbStatus() {
+        return jcbStatus;
+    }
+
+    public void setJcbStatus(JComboBox<String> jcbStatus) {
+        this.jcbStatus = jcbStatus;
+    }
+
+    public JTable getTblServicos() {
+        return tblServicos;
+    }
+
+    public void setTblServicos(JTable tblServicos) {
+        this.tblServicos = tblServicos;
+    }
+
+    public JTextField getTxtDescricao() {
+        return txtDescricao;
+    }
+
+    public void setTxtDescricao(JTextField txtDescricao) {
+        this.txtDescricao = txtDescricao;
+    }
+
+    public JTextField getTxtValor() {
+        return txtValor;
+    }
+
+    public void setTxtValor(JTextField txtValor) {
+        this.txtValor = txtValor;
+    }
+
+    public JTextField getTxtId() {
+        return txtId;
+    }
+
+    public void setTxtId(JTextField txtId) {
+        this.txtId = txtId;
+    }
+   
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionar;
@@ -433,6 +442,7 @@ public class TelaServico extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> jcbStatus;
     private javax.swing.JTable tblServicos;
     private javax.swing.JTextField txtDescricao;
+    private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtValor;
     // End of variables declaration//GEN-END:variables
 }

@@ -9,6 +9,26 @@ public class Login {
     private String senha;
     private String perfil;
 
+    public Login(int id, String nome, String login, String senha, String perfil) {
+        this.id = id;
+        this.nome = nome;
+        this.login = login;
+        this.senha = senha;
+        this.perfil = perfil;
+    }
+
+    public Login() {
+    }
+
+    
+    
+    public Login(String login, String senha) {
+        this.login = login;
+        this.senha = senha;
+    }
+
+    
+    
     public int getId() {
         return id;
     }

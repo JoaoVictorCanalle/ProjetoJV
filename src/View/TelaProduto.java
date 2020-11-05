@@ -1,18 +1,25 @@
 package View;
 
+import Controller.ProdutoController;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JOptionPane;
+import javax.swing.JComboBox;
+
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import model.bean.CatProduto;
-import model.bean.Produto;
-import model.dao.ProdutoDao;
-import net.proteanit.sql.DbUtils;
+
 
 public class TelaProduto extends javax.swing.JInternalFrame {
 
+    private final ProdutoController controller;
+    
     // Vector<CatProduto> categorias; // Cria o vetor do combobox
     public TelaProduto() {
         initComponents();
-
+        controller = new ProdutoController(this);
+        Botoes(true,false,false,false,false,true);
+        Campos(false,false,false,false,false,true);
+        
         //Chama o vetor para dentro do Combobox
         CatProduto catp = new CatProduto();
         DefaultComboBoxModel modeloEstado = new DefaultComboBoxModel(catp.mostrarCategoria());
@@ -53,23 +60,6 @@ public class TelaProduto extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setTitle("Cadastro de Produtos");
-        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
-            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
-                formInternalFrameOpened(evt);
-            }
-        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -92,7 +82,7 @@ public class TelaProduto extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(tblProdutos);
 
-        btnPesquisar.setIcon(new javax.swing.ImageIcon("C:\\Users\\JaYVi\\Downloads\\Icones JV\\Search_32.png")); // NOI18N
+        btnPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Search_32.png"))); // NOI18N
         btnPesquisar.setToolTipText("Pesquisar Produtos Cadastrados");
         btnPesquisar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnPesquisar.setPreferredSize(new java.awt.Dimension(38, 38));
@@ -104,7 +94,7 @@ public class TelaProduto extends javax.swing.JInternalFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel1.setText("Descrição:");
+        jLabel1.setText("Nome do Produto:");
 
         jLabel2.setText("Valor:");
 
@@ -121,13 +111,8 @@ public class TelaProduto extends javax.swing.JInternalFrame {
 
         jcbCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<Selecione a Categoria>" }));
         jcbCategoria.setEnabled(false);
-        jcbCategoria.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jcbCategoriaMouseClicked(evt);
-            }
-        });
 
-        btnNovo.setIcon(new javax.swing.ImageIcon("C:\\Users\\JaYVi\\Downloads\\Icones JV\\New-48.png")); // NOI18N
+        btnNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/New-48.png"))); // NOI18N
         btnNovo.setToolTipText("Novo");
         btnNovo.setPreferredSize(new java.awt.Dimension(50, 50));
         btnNovo.addActionListener(new java.awt.event.ActionListener() {
@@ -136,7 +121,7 @@ public class TelaProduto extends javax.swing.JInternalFrame {
             }
         });
 
-        btnAdicionar.setIcon(new javax.swing.ImageIcon("C:\\Users\\JaYVi\\Downloads\\Icones JV\\Save-48.png")); // NOI18N
+        btnAdicionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Save-48.png"))); // NOI18N
         btnAdicionar.setToolTipText("Salvar");
         btnAdicionar.setMaximumSize(new java.awt.Dimension(80, 57));
         btnAdicionar.setPreferredSize(new java.awt.Dimension(50, 50));
@@ -146,11 +131,11 @@ public class TelaProduto extends javax.swing.JInternalFrame {
             }
         });
 
-        btnEditar.setIcon(new javax.swing.ImageIcon("C:\\Users\\JaYVi\\Downloads\\Icones JV\\Edit-48.png")); // NOI18N
+        btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Edit-48.png"))); // NOI18N
         btnEditar.setToolTipText("Editar");
         btnEditar.setPreferredSize(new java.awt.Dimension(50, 50));
 
-        btnDeletar.setIcon(new javax.swing.ImageIcon("C:\\Users\\JaYVi\\Downloads\\Icones JV\\Delete-48.png")); // NOI18N
+        btnDeletar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Delete-48.png"))); // NOI18N
         btnDeletar.setToolTipText("Deletar");
         btnDeletar.setPreferredSize(new java.awt.Dimension(50, 50));
         btnDeletar.addActionListener(new java.awt.event.ActionListener() {
@@ -159,7 +144,7 @@ public class TelaProduto extends javax.swing.JInternalFrame {
             }
         });
 
-        btnCancelar.setIcon(new javax.swing.ImageIcon("C:\\Users\\JaYVi\\Downloads\\Icones JV\\Cancel-48.png")); // NOI18N
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Cancel-48.png"))); // NOI18N
         btnCancelar.setToolTipText("Cancel");
         btnCancelar.setMaximumSize(new java.awt.Dimension(80, 57));
         btnCancelar.setPreferredSize(new java.awt.Dimension(50, 50));
@@ -169,7 +154,7 @@ public class TelaProduto extends javax.swing.JInternalFrame {
             }
         });
 
-        btnCategoriaProdutos.setIcon(new javax.swing.ImageIcon("C:\\Users\\JaYVi\\Downloads\\Icones JV\\Add-32.png")); // NOI18N
+        btnCategoriaProdutos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/Add-32.png"))); // NOI18N
         btnCategoriaProdutos.setToolTipText("Cadastrar Categoria");
         btnCategoriaProdutos.setPreferredSize(new java.awt.Dimension(35, 35));
         btnCategoriaProdutos.addActionListener(new java.awt.event.ActionListener() {
@@ -189,82 +174,83 @@ public class TelaProduto extends javax.swing.JInternalFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(38, Short.MAX_VALUE)
-                .addComponent(btnNovo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(8, 8, 8)
-                .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(4, 4, 4)
-                .addComponent(btnDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35))
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                            .addComponent(jcbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(btnCategoriaProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel2)
-                                .addComponent(txtValor, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(24, 24, 24)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jcbFid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel4))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel6)
+                        .addGap(65, 65, 65)
+                        .addComponent(btnNovo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jcbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(btnAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(8, 8, 8)
+                        .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(4, 4, 4)
+                        .addComponent(btnDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel6)
                             .addComponent(jLabel1)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(txtDescricao, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel3))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(txtValor, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jcbStatus, javax.swing.GroupLayout.Alignment.LEADING, 0, 106, Short.MAX_VALUE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jcbFid, javax.swing.GroupLayout.Alignment.LEADING, 0, 245, Short.MAX_VALUE)
+                                    .addComponent(jcbCategoria, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnCategoriaProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtId, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jcbFid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jcbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCategoriaProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jcbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(52, 52, 52)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(txtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(11, 11, 11)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jcbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnCategoriaProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(jcbFid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2)
+                            .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(30, 30, 30))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jcbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel6)))
+                .addGap(45, 45, 45)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnNovo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addGap(29, 29, 29))
         );
 
         jLabel5.setText("Produtos Cadastrados:");
@@ -275,28 +261,31 @@ public class TelaProduto extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addGap(11, 11, 11))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(11, 11, 11)
+                                .addComponent(jLabel5)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 11, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -304,220 +293,140 @@ public class TelaProduto extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
-        setBounds(0, 0, 612, 375);
+        setBounds(0, 0, 722, 387);
     }// </editor-fold>//GEN-END:initComponents
 
-    //Método para limpar campos
-    private void limparCampos() {
+    private void limparCampos() {  //Método para limpar campos
         txtDescricao.setText(null);
         txtValor.setText(null);
         jcbFid.setSelectedIndex(0);
         jcbCategoria.setSelectedIndex(0);
         jcbStatus.setSelectedIndex(0);
     }
-    //Fim Método para limpar campos
-
-    //Método para habilitar campos
-    private void habilitarCampos() {
-        txtDescricao.setEnabled(true);
-        txtValor.setEnabled(true);
-        jcbFid.setEnabled(true);
-        jcbCategoria.setEnabled(true);
-        jcbStatus.setEnabled(true);
-    }
-    //Fim Método habilitar campos
-
-    //Método desabilitar Campos
-    private void desabilitarCampos() {
-        txtDescricao.setEnabled(false);
-        txtValor.setEnabled(false);
-        jcbFid.setEnabled(false);
-        jcbCategoria.setEnabled(false);
-        jcbStatus.setEnabled(false);
-    }
-    //Fim Método desabilitar Campos
-
-    //Menu de botões - Padronizar
-    public void botaoNovo() {
-        btnNovo.setEnabled(true);
-        btnAdicionar.setEnabled(true);
-        btnEditar.setEnabled(false);
-        btnDeletar.setEnabled(false);
-        btnCancelar.setEnabled(true);
-    }
-
-    public void botaoAdicionar() {
-        btnNovo.setEnabled(true);
-        btnAdicionar.setEnabled(false);
-        btnEditar.setEnabled(false);
-        btnDeletar.setEnabled(false);
-        btnCancelar.setEnabled(false);
-    }
-
-    public void botaoDeletar() {
-        btnNovo.setEnabled(true);
-        btnAdicionar.setEnabled(false);
-        btnEditar.setEnabled(false);
-        btnDeletar.setEnabled(false);
-        btnCancelar.setEnabled(false);       
+ 
+    private void Campos(boolean TD, boolean TV, boolean JF, boolean JC, boolean JS,boolean TBL){
+        txtDescricao.setEnabled(TD);
+        txtValor.setEnabled(TV);
+        jcbFid.setEnabled(JF);
+        jcbCategoria.setEnabled(JC);
+        jcbStatus.setEnabled(JS);
+        tblProdutos.setEnabled(TBL);
     }
     
-    public void botaoSetarCampos() {
-        btnNovo.setEnabled(false);
-        btnAdicionar.setEnabled(false);
-        btnEditar.setEnabled(true);
-        btnDeletar.setEnabled(true);
-        btnCancelar.setEnabled(true);
+    public void Botoes(boolean N, boolean E, boolean R, boolean S, boolean C, boolean P){
+       btnNovo.setEnabled(N);
+       btnEditar.setEnabled(E); 
+       btnDeletar.setEnabled(R);
+       btnAdicionar.setEnabled(S);
+       btnCancelar.setEnabled(C);
+       btnPesquisar.setEnabled(P);
     }
-
-    public void botaoCancelar() {
-        btnNovo.setEnabled(true);
-        btnAdicionar.setEnabled(false);
-        btnEditar.setEnabled(false);
-        btnDeletar.setEnabled(false);
-        btnCancelar.setEnabled(false);
-    }
-    //Fim do Menu de botões - Padronizar   
-
-    //Método para Validar Campos   
-    public boolean validarCampos() {
-        if (txtDescricao.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "Digite a descrição do produto!");
-            txtDescricao.requestFocus();
-            return false;
-        }
-        if (txtValor.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "Digite o valor do produto!");
-            txtValor.requestFocus();
-            return false;
-        }
-        if (jcbFid.getSelectedIndex() == 0) {
-            JOptionPane.showMessageDialog(this, "Selecione a pontuação de fidelidade referente ao produto!");
-            jcbStatus.requestFocus();
-            return false;
-        } 
-        if (jcbCategoria.getSelectedIndex() == 0) {
-            JOptionPane.showMessageDialog(this, "Selecione a categoria do produto!");
-            jcbStatus.requestFocus();
-            return false;
-        }
-        return true;
-
-    }
-    //Fim Método para Validar Campos   
-
 
     private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnDeletarActionPerformed
 
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
-        // TODO add your handling code here:
         limparCampos();
-        habilitarCampos();
-        botaoNovo();
-        btnPesquisar.setEnabled(false);
-        tblProdutos.setEnabled(false);
+        Campos(true,true,true,true,true,false);
+        Botoes(false,false,false,true,true,false);
         txtDescricao.requestFocus();
     }//GEN-LAST:event_btnNovoActionPerformed
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
-      if (validarCampos() == true) {
-        Produto p = new Produto();
-        ProdutoDao dao = new ProdutoDao();
-        CatProduto categoria = (CatProduto) jcbCategoria.getSelectedItem();
-        
-        p.setDescricao(txtDescricao.getText());
-        p.setValor(Double.parseDouble(txtValor.getText().replace(",", ".")));
-        p.setCategoria_id(categoria.getId());
-        p.setPontfid(Integer.parseInt(jcbFid.getSelectedItem().toString()));
-        if (jcbStatus.getSelectedItem() == "ATIVO") {
-            p.setStatus(1);
-        } else if (jcbStatus.getSelectedItem() == "INATIVO") {
-            p.setStatus(2);
-        }
-        dao.create(p);
-        
         limparCampos();
-        desabilitarCampos();
-        btnPesquisar.setEnabled(true);
-        tblProdutos.setEnabled(true);
-        btnPesquisar.doClick();
-        botaoAdicionar();
-      }  
+        Campos(false,false,false,false,false,true);   
+        Botoes(true,false,false,false,false,true);
+        controller.atualizarGrid();
+          
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
-    //Método setar campos para os txt
-    public void setar_campos() {
-        int setar = tblProdutos.getSelectedRow();
-        txtId.setText(tblProdutos.getModel().getValueAt(setar, 0).toString());
-        txtDescricao.setText(tblProdutos.getModel().getValueAt(setar, 1).toString());
-        txtValor.setText(tblProdutos.getModel().getValueAt(setar, 2).toString());
-        jcbFid.removeAllItems();
-        jcbFid.addItem(tblProdutos.getModel().getValueAt(setar, 3).toString());
-        jcbStatus.removeAllItems();
-        jcbStatus.addItem(tblProdutos.getModel().getValueAt(setar, 4).toString());
-        jcbCategoria.removeAllItems();
-        jcbCategoria.addItem(tblProdutos.getModel().getValueAt(setar, 5).toString());
-
-        habilitarCampos();
-        botaoSetarCampos();
-    }
-
-    //Fim Método setar campos
-
-    private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
-        // TODO add your handling code here:
-    }//GEN-LAST:event_formInternalFrameOpened
-
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-        // TODO add your handling code here:
-        ProdutoDao dao = new ProdutoDao();
-        tblProdutos.setModel(DbUtils.resultSetToTableModel(dao.consultar_produto()));
-        //omitir campo de coluna
-        tblProdutos.getColumn(tblProdutos.getColumnName(0)).setMinWidth(0);
-        tblProdutos.getColumn(tblProdutos.getColumnName(0)).setMaxWidth(0);
-        //tblProdutos.getColumn(tblProdutos.getColumnName(0)).setPreferredWidth(0);
-        tblProdutos.getColumn(tblProdutos.getColumnName(1)).setPreferredWidth(150);
-        tblProdutos.enable(true);
+        controller.atualizarGrid();
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
         limparCampos();
-        desabilitarCampos();
-        btnPesquisar.setEnabled(true);
-        tblProdutos.setEnabled(true);
-        botaoCancelar();
+        Campos(false,false,false,false,false,true);   
+        Botoes(true,false,false,false,false,true);
     }//GEN-LAST:event_btnCancelarActionPerformed
-
+    
+    //ver
     private void btnCategoriaProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCategoriaProdutosActionPerformed
-        // TODO add your handling code here:
         TelaCatProdutos catproduto = new TelaCatProdutos();
         catproduto.setVisible(true);
-
     }//GEN-LAST:event_btnCategoriaProdutosActionPerformed
 
-    private void jcbCategoriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jcbCategoriaMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jcbCategoriaMouseClicked
-
     private void tblProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProdutosMouseClicked
-        //Quando clickar no grid setar os campos 
-        setar_campos();
+        Campos(true,true,true,true,true,false);
+        Botoes(false, true, true, false, true,false);
+        controller.setar_campos();      
     }//GEN-LAST:event_tblProdutosMouseClicked
 
+    public JComboBox<String> getJcbCategoria() {
+        return jcbCategoria;
+    }
+
+    public void setJcbCategoria(JComboBox<String> jcbCategoria) {
+        this.jcbCategoria = jcbCategoria;
+    }
+
+    public JComboBox<String> getJcbFid() {
+        return jcbFid;
+    }
+
+    public void setJcbFid(JComboBox<String> jcbFid) {
+        this.jcbFid = jcbFid;
+    }
+
+    public JComboBox<String> getJcbStatus() {
+        return jcbStatus;
+    }
+
+    public void setJcbStatus(JComboBox<String> jcbStatus) {
+        this.jcbStatus = jcbStatus;
+    }
+
+    public JTable getTblProdutos() {
+        return tblProdutos;
+    }
+
+    public void setTblProdutos(JTable tblProdutos) {
+        this.tblProdutos = tblProdutos;
+    }
+
+    public JTextField getTxtDescricao() {
+        return txtDescricao;
+    }
+
+    public void setTxtDescricao(JTextField txtDescricao) {
+        this.txtDescricao = txtDescricao;
+    }
+
+    public JTextField getTxtId() {
+        return txtId;
+    }
+
+    public void setTxtId(JTextField txtId) {
+        this.txtId = txtId;
+    }
+
+    public JTextField getTxtValor() {
+        return txtValor;
+    }
+
+    public void setTxtValor(JTextField txtValor) {
+        this.txtValor = txtValor;
+    }
+
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionar;
@@ -545,3 +454,6 @@ public class TelaProduto extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtValor;
     // End of variables declaration//GEN-END:variables
 }
+
+
+
